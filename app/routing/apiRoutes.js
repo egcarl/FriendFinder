@@ -1,8 +1,5 @@
-// Pull in required dependencies
-var path = require('path');
-
 // Import the list of friend entries
-var friends = require('../data/friends.js');
+var friends = require('../data/friends');
 
 // Export API routes
 module.exports = function (app) {
@@ -17,10 +14,7 @@ module.exports = function (app) {
   app.post('/api/friends', function (req, res) {
     // Capture the user input object
     var userInput = req.body;
-
-
     var userResponses = userInput.scores;
-
 
     // Compute best friend match
     var matchName = '';
@@ -40,10 +34,6 @@ module.exports = function (app) {
 
       // If lowest difference, record the friend match
       if (diff < totalDifference) {
-
-
-
-
         totalDifference = diff;
         matchName = friends[i].name;
         matchImage = friends[i].photo;

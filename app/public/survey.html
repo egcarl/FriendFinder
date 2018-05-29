@@ -156,7 +156,7 @@
           <hr>
           <footer class="footer">
             <p>
-              <a href="../data/friends.js">Friends List</a>
+              <a href="/api/friends">View the friends</a>
               |
               <a href="https://github.com/egcarl/FriendFinder">Checkout some code</a>
             </p>
@@ -173,26 +173,59 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  ...
+                  <h5 id="userMatch"></h5>
+                  <img id="userMatchImage" class="materialboxed" width="400" src="">
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>                  
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </form>
-    </div>    
+    </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
     crossorigin="anonymous"></script>
-  <script src="logic.js"></script>
+  <script>
+
+    $('#submit').on('click', function (event) {
+      event.preventDefault();
+      // Gather user inputs
+      var userInput = {
+        name: $('#name-input').val().trim(),
+        photo: $('#photo-input').val().trim(),
+        scores: [
+          $('#answer1').val().trim(),
+          $('#answer2').val().trim(),
+          $('#answer3').val().trim(),
+          $('#answer4').val().trim(),
+          $('#answer5').val().trim(),
+          $('#answer6').val().trim(),
+          $('#answer7').val().trim(),
+          $('#answer8').val().trim(),
+          $('#answer9').val().trim(),
+          $('#answer10').val().trim()
+        ]
+      };
+
+      console.log(userInput)
+      // Add user inputs to friends list
+      $.post('/api/friends', userInput).done(function (data) {
+        // Set the name and image values of friend match
+        $('#userMatch').html(data.matchName);
+        $("#userMatchImage").attr("src", data.matchImage);
+        // Pop open the modal dialog
+        $('#modal').modal('open');
+      });
+    });
+  </script>
 </body>
 
 </html>
